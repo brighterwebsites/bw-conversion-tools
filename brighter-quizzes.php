@@ -40,7 +40,7 @@ function bw_quizzes_init() {
     $engine->register_quiz( 'service-pathway', array(
         'id' => 'service-pathway',
         'title' => 'Service Pathway Quiz',
-        'description' => 'Determine which service pathway is right for your business.',
+        'description' => 'Find your service pathway: Launch Fast, Grow Visibility, or Scale Smarter.',
     ) );
     
     // Fire action for other quiz registrations
