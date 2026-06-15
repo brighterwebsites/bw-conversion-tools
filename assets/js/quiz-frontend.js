@@ -168,14 +168,12 @@
 
             const nextSteps = result.next_steps;
 
+            // Update pathway label
+            this.$result.find('.bw-result-pathway-label').text(result.pathway_label);
+
             // Update diagnosis
             this.$result.find('.bw-result-diagnosis').html(
                 '<p><strong>' + this.escapeHtml(result.diagnosis) + '</strong></p>'
-            );
-
-            // Update explanation
-            this.$result.find('.bw-result-explanation').html(
-                '<p>' + this.escapeHtml(result.explanation) + '</p>'
             );
 
             // Update next steps section
