@@ -28,8 +28,6 @@
             this.$questions = this.$form.find('.bw-quiz-question');
             this.$progress = this.$form.find('.bw-quiz-progress-fill');
             this.$counter = this.$form.find('.bw-current-question');
-            this.$nextBtn = this.$form.find('.bw-btn-next');
-            this.$backBtn = this.$form.find('.bw-btn-back');
             this.$result = this.$container.find('.bw-quiz-result');
         },
 
@@ -42,18 +40,6 @@
             // Option selection changes
             this.$form.on('change', 'input[type="radio"]', function() {
                 self.onOptionSelected($(this));
-            });
-
-            // Next button
-            this.$nextBtn.on('click', function(e) {
-                e.preventDefault();
-                self.nextQuestion();
-            });
-
-            // Back button
-            this.$backBtn.on('click', function(e) {
-                e.preventDefault();
-                self.previousQuestion();
             });
 
             // Reset button
@@ -106,16 +92,6 @@
         },
 
         /**
-         * Move to previous question
-         */
-        previousQuestion: function() {
-            if (this.currentQuestion > 1) {
-                this.currentQuestion--;
-                this.updateDisplay();
-            }
-        },
-
-        /**
          * Check if current question is answered
          */
         isCurrentQuestionAnswered: function() {
@@ -141,20 +117,6 @@
             // Update counter
             this.$counter.text(this.currentQuestion);
 
-            // Update button visibility
-            if (this.currentQuestion === 1) {
-                this.$backBtn.hide();
-            } else {
-                this.$backBtn.show();
-            }
-
-            // Last question: change next button text
-            if (this.currentQuestion === this.totalQuestions) {
-                this.$nextBtn.text('See My Pathway →');
-            } else {
-                this.$nextBtn.text('Next →');
-            }
-
             // Scroll to question
             $('html, body').animate({
                 scrollTop: this.$form.offset().top - 100
@@ -170,9 +132,6 @@
             // Send data silently to support email for analytics
             const name = null;
             const email = 'support@brighterwebsites.com.au';
-
-            // Show loading state
-            this.$nextBtn.prop('disabled', true).text('Processing...');
 
             // Send to server
             $.ajax({
@@ -191,12 +150,10 @@
                         self.showResult(response.data.result);
                     } else {
                         console.error('Quiz submission failed:', response.data);
-                        self.$nextBtn.prop('disabled', false).text('Next →');
                     }
                 },
                 error: function(xhr, status, error) {
                     console.error('AJAX error:', error);
-                    self.$nextBtn.prop('disabled', false).text('Next →');
                 }
             });
         },
@@ -205,12 +162,10 @@
          * Display result
          */
         showResult: function(result) {
-            // Hide form and header
+            // Hide form
             this.$form.hide();
-            this.$container.find('.bw-quiz-header').hide();
             this.$container.find('.bw-quiz-progress-wrapper').hide();
 
-            const proof = result.social_proof;
             const nextSteps = result.next_steps;
 
             // Update diagnosis
@@ -234,13 +189,6 @@
             const mailtoLink = this.buildMailtoLink(result);
             this.$result.find('.bw-result-email-link').attr('href', mailtoLink);
 
-            // Update social proof
-            this.$result.find('.bw-result-social-proof').html(
-                '<div class="bw-result-social-proof-stat">' + this.escapeHtml(proof.stat) + '</div>' +
-                '<div class="bw-result-social-proof-client">' + this.escapeHtml(proof.client) + '</div>' +
-                '<div class="bw-result-social-proof-detail">' + this.escapeHtml(proof.detail) + '</div>'
-            );
-
             // Show result
             this.$result.show();
 
@@ -262,13 +210,9 @@
             this.$form.find('input[type="radio"]').prop('checked', false);
             this.$form.find('.bw-option').removeClass('selected');
 
-            // Reset button state
-            this.$nextBtn.prop('disabled', false).text('Next →');
-
-            // Hide result, show form and header
+            // Hide result, show form
             this.$result.hide();
             this.$form.show();
-            this.$container.find('.bw-quiz-header').show();
             this.$container.find('.bw-quiz-progress-wrapper').show();
 
             // Reset display

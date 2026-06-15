@@ -25,11 +25,6 @@ class BW_Shortcode_Handler {
         ob_start();
         ?>
         <div class="bw-quiz-container" data-quiz-id="service-pathway">
-            <div class="bw-quiz-header">
-                <h2 class="bw-quiz-title"><?php echo esc_html( $atts['title'] ); ?></h2>
-                <p class="bw-quiz-subtitle"><?php echo esc_html( $atts['subtitle'] ); ?></p>
-            </div>
-
             <!-- Progress Bar -->
             <div class="bw-quiz-progress-wrapper">
                 <div class="bw-quiz-progress-bar">
@@ -96,11 +91,6 @@ class BW_Shortcode_Handler {
                     </div>
                 </div>
 
-                <!-- Navigation Buttons -->
-                <div class="bw-quiz-navigation">
-                    <button type="button" class="bw-btn bw-btn-back" style="display: none;">← Back</button>
-                    <button type="button" class="bw-btn bw-btn-next">Next →</button>
-                </div>
             </form>
 
             <!-- Result Screen -->
@@ -120,8 +110,6 @@ class BW_Shortcode_Handler {
                         <a href="#" class="bw-btn bw-btn-secondary bw-result-email-link">Email Your Questions</a>
                     </div>
                 </div>
-
-                <div class="bw-result-social-proof"></div>
 
                 <div class="bw-result-reset">
                     <button type="button" class="bw-btn bw-btn-reset">↺ Take Quiz Again</button>
